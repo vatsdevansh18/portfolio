@@ -1,0 +1,249 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+
+@theme {
+  --font-sans: "Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --color-carbon-950: #050505;
+  --color-carbon-900: #070707;
+  --color-carbon-850: #0a0a0a;
+  --color-carbon-800: #0d0d0d;
+  --color-carbon-750: #111111;
+  --color-carbon-700: #161616;
+  --color-carbon-600: #202020;
+
+  --color-text-primary: #ededed;
+  --color-text-secondary: #8c8c8c;
+  --color-text-tertiary: #525252;
+
+  --color-tactical-accent: #10b981;
+  --color-tactical-muted: rgba(16, 185, 129, 0.1);
+  --color-tactical-border: rgba(255, 255, 255, 0.08);
+  --color-pitch-line: rgba(255, 255, 255, 0.04);
+
+  --color-phosphor-green: #10b981;
+  --color-phosphor-amber: #f59e0b;
+}
+
+:root {
+  font-family: var(--font-sans);
+  color-scheme: dark;
+  --bg-primary: #070707;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --phosphor-glow: rgba(16, 185, 129, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #050505;
+  color: #ededed;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lenis smooth scroll specifications */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #050505;
+  color: #ededed;
+  overflow-x: hidden;
+}
+
+/* Skip link for keyboard accessibility */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: #ededed;
+  color: #070707;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 9999;
+  border-radius: 2px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid #10b981;
+}
+
+/* Focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgba(16, 185, 129, 0.6);
+  outline-offset: 2px;
+}
+
+/* Tactical spatial background grid */
+.bg-tactical-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Tactical dot matrix overlay */
+.bg-tactical-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Hairline borders */
+.border-hairline {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.border-hairline-t {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.border-hairline-b {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.border-hairline-l {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+.border-hairline-r {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Retro Workstation Beveled / Double Hairline Panels */
+.retro-box {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: #080808;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.04), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.retro-box-header {
+  background: linear-gradient(180deg, #181818 0%, #101010 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.retro-inset {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #030303;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Dotted Leader Line for Specifications */
+.dotted-leader {
+  flex-grow: 1;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.15);
+  margin: 0 8px;
+  height: 1px;
+  position: relative;
+  top: -4px;
+}
+
+/* Subtle CRT Scanlines Overlay (High performance, crisp, zero blur) */
+.crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* CRT Vignette */
+.crt-vignette {
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+/* Blinking Terminal Cursor */
+@keyframes retro-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.animate-retro-blink {
+  animation: retro-blink 1s infinite steps(1);
+}
+
+/* Subtle Signal Pulse */
+@keyframes signal-pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.animate-signal-pulse {
+  animation: signal-pulse 2s infinite ease-in-out;
+}
+
+/* Accessibility: Prefers reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .crt-scanlines,
+  .crt-vignette {
+    display: none !important;
+  }
+}
+
+/* Scrollbar Hiding Utility */
+.no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Subtle Technical Scrollbar for Immersive Content */
+.tactical-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.4) transparent;
+}
+.tactical-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.tactical-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tactical-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3);
+  border-radius: 1px;
+}
+.tactical-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.6);
+}
