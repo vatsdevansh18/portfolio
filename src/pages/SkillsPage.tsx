@@ -198,329 +198,57 @@ const SKILL_GROUPS: SkillGroup[] = [
 ]
 
 export function SkillsPage() {
-  const [selectedGroupId, setSelectedGroupId] = useState<string>("frontend")
-  const [selectedSkillId, setSelectedSkillId] = useState<string>("react")
-  const [searchQuery, setSearchQuery] = useState<string>("")
-  const [viewMode, setViewMode] = useState<"DIRECTORY" | "DEPENDENCY_GRAPH">("DIRECTORY")
-
-  const selectedGroup =
-    SKILL_GROUPS.find((g) => g.id === selectedGroupId) || SKILL_GROUPS[0]
-
-  // Flattened search for grep filter
-  const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return null
-    const q = searchQuery.toLowerCase()
-    const results: { group: SkillGroup; skill: SkillDetail }[] = []
-    SKILL_GROUPS.forEach((g) => {
-      g.skills.forEach((s) => {
-        if (
-          s.name.toLowerCase().includes(q) ||
-          s.scope.toLowerCase().includes(q) ||
-          s.level.toLowerCase().includes(q)
-        ) {
-          results.push({ group: g, skill: s })
-        }
-      })
-    })
-    return results
-  }, [searchQuery])
-
-  // Get currently selected skill object
-  const currentSkill: SkillDetail = useMemo(() => {
-    for (const group of SKILL_GROUPS) {
-      const found = group.skills.find((s) => s.id === selectedSkillId)
-      if (found) return found
-    }
-    return selectedGroup.skills[0]
-  }, [selectedSkillId, selectedGroup])
-
   return (
     <div className="w-full min-h-full flex flex-col justify-between p-4 sm:p-6 lg:p-8 animate-in fade-in duration-150 font-mono select-none">
-      {/* Directory Title & View Switcher */}
+      {/* Top Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/10 shrink-0">
         <div className="flex items-center gap-2">
           <Terminal className="h-4 w-4 text-[#10b981]" />
           <span className="text-xs sm:text-sm font-bold text-white tracking-wider">
-            SYSTEM_DIAGNOSTICS // DEV://SYS/MODULES/
+            DIRECTORY // SKILLS_AND_TECH/
           </span>
         </div>
-
-        {/* View Mode Switcher */}
-        <div className="flex items-center gap-1.5 text-xs">
-          <button
-            type="button"
-            onClick={() => setViewMode("DIRECTORY")}
-            className={`px-2.5 py-1 rounded-xs border transition-colors cursor-pointer flex items-center gap-1.5 text-[11px] ${
-              viewMode === "DIRECTORY"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white"
-            }`}
-          >
-            <Folder className="h-3 w-3 text-[#10b981]" />
-            <span>[MODULE DIRECTORY]</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setViewMode("DEPENDENCY_GRAPH")}
-            className={`px-2.5 py-1 rounded-xs border transition-colors cursor-pointer flex items-center gap-1.5 text-[11px] ${
-              viewMode === "DEPENDENCY_GRAPH"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white"
-            }`}
-          >
-            <Layers className="h-3 w-3 text-[#10b981]" />
-            <span>[SYSTEM DEPENDENCY GRAPH]</span>
-          </button>
-        </div>
       </div>
 
-      {/* Terminal Live Filter Bar */}
-      <div className="mt-4 flex items-center gap-2 px-3 py-1.5 rounded-xs border border-white/10 bg-[#080808] text-xs">
-        <Search className="h-3.5 w-3.5 text-[#10b981] shrink-0" />
-        <span className="text-[#10b981] font-bold shrink-0">$ grep -i</span>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="filter modules (e.g., three, react, typescript, webgl)..."
-          className="flex-1 bg-transparent text-white placeholder:text-[#525252] focus:outline-none text-xs"
-        />
-        {searchQuery && (
-          <button
-            type="button"
-            onClick={() => setSearchQuery("")}
-            className="text-[10px] text-[#71717a] hover:text-white cursor-pointer"
-          >
-            [CLEAR]
-          </button>
-        )}
-      </div>
-
-      {/* VIEW MODE 1: DIRECTORY BROWSER */}
-      {viewMode === "DIRECTORY" && (
-        <div className="flex-1 flex flex-col md:flex-row gap-5 mt-4">
-          {/* Left: Subdirectory folders (or Search Results) */}
-          <div className="w-full md:w-64 lg:w-72 shrink-0 flex flex-col gap-2 pr-1">
-            <div className="text-[10px] text-[#71717a] uppercase tracking-wider mb-1 flex justify-between">
-              <span>{searchResults ? `MATCHED (${searchResults.length})` : "SUBDIRECTORIES"}</span>
-              <span className="text-[#10b981]">DIR_TREE</span>
+      {/* Main Grid Content */}
+      <div className="flex-1 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-y-auto no-scrollbar pb-10">
+        {SKILL_GROUPS.map((group) => (
+          <div key={group.id} className="retro-box rounded-xs p-5 sm:p-6 flex flex-col h-full border border-white/10">
+            
+            <div className="flex items-center gap-2 mb-2">
+              <Folder className="h-4 w-4 text-[#10b981]" />
+              <h2 className="text-sm font-bold text-white uppercase tracking-widest">{group.category}</h2>
             </div>
-
-            {searchResults ? (
-              searchResults.length === 0 ? (
-                <div className="p-3 text-xs text-[#71717a] border border-dashed border-white/10 rounded-xs">
-                  No modules match '{searchQuery}'.
-                </div>
-              ) : (
-                searchResults.map(({ group, skill }) => (
-                  <button
-                    key={skill.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedGroupId(group.id)
-                      setSelectedSkillId(skill.id)
-                    }}
-                    className={`w-full text-left p-2.5 rounded-xs border transition-all cursor-pointer ${
-                      selectedSkillId === skill.id
-                        ? "border-[#10b981] bg-[#10b981]/10 text-white"
-                        : "border-white/10 bg-[#080808] text-[#a1a1aa] hover:border-white/20 hover:text-white"
-                    }`}
-                  >
-                    <div className="text-xs font-bold truncate">{skill.name}</div>
-                    <div className="text-[10px] text-[#71717a] mt-0.5 truncate">
-                      {group.directory}
-                    </div>
-                  </button>
-                ))
-              )
-            ) : (
-              SKILL_GROUPS.map((group) => {
-                const isSelected = group.id === selectedGroupId
-                return (
-                  <button
-                    key={group.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedGroupId(group.id)
-                      setSelectedSkillId(group.skills[0].id)
-                    }}
-                    className={`w-full text-left p-3 rounded-xs border transition-all cursor-pointer ${
-                      isSelected
-                        ? "border-[#10b981] bg-[#10b981]/10 text-white shadow-[0_0_10px_rgba(16,185,129,0.15)] translate-x-1"
-                        : "border-white/10 bg-[#080808] text-[#a1a1aa] hover:border-white/20 hover:text-white hover:translate-x-0.5"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 text-xs font-bold">
-                      <Folder className={`h-3.5 w-3.5 ${isSelected ? "text-[#10b981]" : "text-[#71717a]"}`} />
-                      <span className="truncate">{group.directory}</span>
-                    </div>
-                    <div className="text-[10px] text-[#71717a] mt-1 line-clamp-1">
-                      {group.category} ({group.skills.length})
-                    </div>
-                  </button>
-                )
-              })
-            )}
-          </div>
-
-          {/* Right: Modules & Deep Diagnostic Spec Sheet */}
-          <div className="flex-1 retro-box rounded-xs p-4 sm:p-6 flex flex-col justify-between space-y-5">
-            <div className="space-y-4">
-              <div>
-                <div className="text-base font-bold text-white flex items-center gap-2">
-                  <span>{selectedGroup.directory}</span>
-                  <span className="text-xs text-[#10b981] font-normal">
-                    // {selectedGroup.category}
-                  </span>
-                </div>
-                <div className="text-xs text-[#a1a1aa] mt-1">
-                  {selectedGroup.description}
-                </div>
-              </div>
-
-              {/* Module Selector Chips */}
-              <div className="space-y-2">
-                <div className="text-[10px] text-[#71717a] uppercase tracking-wider">
-                  ACTIVE SUBSYSTEMS (SELECT TO INSPECT SPEC SHEET)
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {selectedGroup.skills.map((skill) => {
-                    const isSelected = skill.id === currentSkill.id
-                    return (
-                      <button
-                        key={skill.id}
-                        type="button"
-                        onClick={() => setSelectedSkillId(skill.id)}
-                        className={`p-2.5 rounded-xs border text-left transition-all cursor-pointer flex items-center justify-between gap-2 ${
-                          isSelected
-                            ? "border-[#10b981] bg-[#10b981]/15 text-white shadow-[0_0_8px_rgba(16,185,129,0.15)]"
-                            : "border-white/8 bg-[#050505] text-[#d4d4d8] hover:border-white/20 hover:text-white"
-                        }`}
-                      >
-                        <div className="truncate">
-                          <div className="text-xs font-bold truncate flex items-center gap-1.5">
-                            <FileCode className={`h-3.5 w-3.5 ${isSelected ? "text-[#10b981]" : "text-[#71717a]"}`} />
-                            <span>{skill.name}</span>
-                          </div>
-                          <div className="text-[10px] text-[#71717a] mt-0.5 truncate">
-                            {skill.projectUsage}
-                          </div>
-                        </div>
-
-                        <TerminalLabel variant={skill.level === "ADVANCED" ? "green" : "muted"}>
-                          {skill.level}
-                        </TerminalLabel>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Deep Diagnostic Spec Sheet for Selected Module */}
-              <div className="p-4 rounded-xs border border-[#10b981]/30 bg-[#030303] space-y-2.5">
-                <div className="flex items-center justify-between pb-2 border-b border-white/6 text-xs font-bold text-white">
-                  <div className="flex items-center gap-2">
-                    <Cpu className="h-3.5 w-3.5 text-[#10b981]" />
-                    <span>DIAGNOSTIC SPEC SHEET: {currentSkill.name}</span>
-                  </div>
-                  <span className="text-[10px] text-[#10b981] font-normal">
-                    {currentSkill.verificationSignature}
-                  </span>
-                </div>
-
-                <div className="space-y-1.5 text-xs">
-                  <SystemReadout label="PRODUCTION BENCHMARK" value={currentSkill.productionBenchmark} status="highlight" />
-                  <SystemReadout label="REPOSITORIES USING MODULE" value={currentSkill.projectUsage} />
-                  <div className="pt-1.5">
-                    <span className="text-[#71717a] text-[10px] uppercase block">
-                      ARCHITECTURAL SCOPE & CAPABILITIES:
-                    </span>
-                    <span className="text-[#ededed] text-xs leading-relaxed block mt-0.5">
-                      {currentSkill.scope}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-white/8 text-[10px] text-[#525252] flex items-center justify-between">
-              <span>COMPLIANCE: STRICT TYPES & HIGH PERFORMANCE</span>
-              <span>VERIFIED BY DEVANSH VATS</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* VIEW MODE 2: SYSTEM DEPENDENCY GRAPH */}
-      {viewMode === "DEPENDENCY_GRAPH" && (
-        <div className="flex-1 retro-box rounded-xs p-4 sm:p-6 mt-4 space-y-6">
-          <div className="border-b border-white/8 pb-3">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Layers className="h-4 w-4 text-[#10b981]" />
-              <span>FULLSTACK & SPATIAL ARCHITECTURE TOPOLOGY</span>
-            </h2>
-            <p className="text-xs text-[#a1a1aa] mt-1">
-              How Devansh's technical stack layers interact across runtime, WebGL rendering, and persistent storage.
+            
+            <p className="text-xs text-[#a1a1aa] mb-6 leading-relaxed border-l border-[#10b981]/30 pl-3">
+              {group.description}
             </p>
+
+            <div className="flex flex-col gap-4 mt-auto">
+              {group.skills.map((skill) => (
+                <div key={skill.id} className="flex flex-col gap-1.5 pb-3 border-b border-white/5 last:border-0 last:pb-0">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold text-white">{skill.name}</span>
+                    <TerminalLabel variant={skill.level === "CORE" ? "green" : "muted"}>
+                      {skill.level}
+                    </TerminalLabel>
+                  </div>
+                  <span className="text-xs text-[#71717a] leading-relaxed">
+                    {skill.scope}
+                  </span>
+                </div>
+              ))}
+            </div>
+            
           </div>
+        ))}
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Layer 1: Interface */}
-            <RetroPanel title="[L1] CLIENT SHELL" subtitle="UI & TYPOGRAPHY" controls={false}>
-              <ul className="text-xs space-y-1.5 text-[#d4d4d8]">
-                <li>• React 19 Core</li>
-                <li>• Tailwind CSS v4</li>
-                <li>• Geist Typography</li>
-                <li>• Single-Scroll Lenis</li>
-              </ul>
-              <div className="text-[10px] text-[#71717a] pt-2 border-t border-white/6 mt-2">
-                Renders viewport shell and persistent folders.
-              </div>
-            </RetroPanel>
-
-            {/* Layer 2: 3D Engine */}
-            <RetroPanel title="[L2] SPATIAL WEBGL" subtitle="THREE.JS GRAPHICS" controls={false}>
-              <ul className="text-xs space-y-1.5 text-[#d4d4d8]">
-                <li>• Three.js R170</li>
-                <li>• React Three Fiber</li>
-                <li>• Custom BufferGeom</li>
-                <li>• Vector Projections</li>
-              </ul>
-              <div className="text-[10px] text-[#71717a] pt-2 border-t border-white/6 mt-2">
-                Drives tactical pitch and 3D workstation.
-              </div>
-            </RetroPanel>
-
-            {/* Layer 3: Motion & Routing */}
-            <RetroPanel title="[L3] MOTION & STATE" subtitle="GSAP CONTROLLER" controls={false}>
-              <ul className="text-xs space-y-1.5 text-[#d4d4d8]">
-                <li>• GSAP ScrollTrigger</li>
-                <li>• Scroller Proxying</li>
-                <li>• React Router v7</li>
-                <li>• Strict TypeScript</li>
-              </ul>
-              <div className="text-[10px] text-[#71717a] pt-2 border-t border-white/6 mt-2">
-                Synchronizes scroll progress to 3D cameras.
-              </div>
-            </RetroPanel>
-
-            {/* Layer 4: Data & Backend */}
-            <RetroPanel title="[L4] DATA INTEGRITY" subtitle="OFFLINE STORAGE" controls={false}>
-              <ul className="text-xs space-y-1.5 text-[#d4d4d8]">
-                <li>• Node.js & REST APIs</li>
-                <li>• IndexedDB Offline</li>
-                <li>• Optimistic Updates</li>
-                <li>• Git CI Workflows</li>
-              </ul>
-              <div className="text-[10px] text-[#71717a] pt-2 border-t border-white/6 mt-2">
-                Guarantees zero data loss under spotty network.
-              </div>
-            </RetroPanel>
-          </div>
-        </div>
-      )}
+      {/* Footer Info */}
+      <div className="pt-3 border-t border-white/8 shrink-0 flex items-center justify-between text-[10px] text-[#525252]">
+        <span>COMPLIANCE: STRICT TYPES & HIGH PERFORMANCE</span>
+        <span>VERIFIED BY DEVANSH VATS</span>
+      </div>
     </div>
   )
 }

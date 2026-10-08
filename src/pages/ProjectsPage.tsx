@@ -233,18 +233,17 @@ export function ProjectsPage() {
           })}
         </div>
 
-        {/* Right: Project Inspection Pane */}
-        <div className="flex-1 retro-box rounded-xs p-4 sm:p-6 flex flex-col justify-between space-y-5">
-          <div className="space-y-4">
+    {/* Right: Project Inspection Pane */}
+        <div className="flex-1 retro-box rounded-xs p-5 sm:p-8 flex flex-col justify-between space-y-6">
+          <div className="space-y-6">
             {/* Header info */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-white/8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
               <div>
-                <h2 className="text-base sm:text-lg font-bold font-mono text-white flex items-center gap-2">
-                  <span>{selectedProject.name}</span>
-                  <TerminalLabel variant="green">{selectedProject.status}</TerminalLabel>
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">
+                  {selectedProject.name}
                 </h2>
-                <div className="font-mono text-xs text-[#10b981] mt-0.5">
-                  TYPE: {selectedProject.category} // VER: {selectedProject.version}
+                <div className="text-xs text-[#10b981] font-mono tracking-wider">
+                  {selectedProject.category} // {selectedProject.status}
                 </div>
               </div>
 
@@ -253,45 +252,28 @@ export function ProjectsPage() {
                 type="button"
                 onClick={() => handleLaunchProject(selectedProject.destinationRoute)}
                 disabled={isSimulatingLaunch}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xs border border-[#10b981] bg-[#10b981]/20 text-white text-xs font-bold hover:bg-[#10b981]/30 transition-all cursor-pointer shadow-[0_0_12px_rgba(16,185,129,0.2)]"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xs bg-[#10b981] hover:bg-[#059669] text-black text-xs font-bold transition-all cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.3)] shrink-0"
               >
-                <Play className="h-3 w-3 fill-current text-[#10b981]" />
-                <span>{isSimulatingLaunch ? "LAUNCHING RUNTIME..." : "EXECUTE // LAUNCH 3D"}</span>
+                <Play className="h-4 w-4" />
+                <span>{isSimulatingLaunch ? "LOADING..." : "VIEW LIVE PROJECT"}</span>
               </button>
             </div>
 
             {/* Description */}
-            <p className="text-xs sm:text-sm text-[#d4d4d8] leading-relaxed">
-              {selectedProject.description}
-            </p>
-
-            {/* Architectural Telemetry Box with SystemReadout */}
-            <div className="p-3.5 rounded-xs border border-white/8 bg-[#040404] space-y-2">
-              <div className="text-[10px] text-[#71717a] uppercase tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <Cpu className="h-3 w-3 text-[#10b981]" />
-                  <span>RUNTIME BENCHMARKS & TELEMETRY</span>
-                </span>
-                <span className="text-[#10b981]">SYSTEM STABLE</span>
-              </div>
-              <div className="space-y-1.5 pt-1">
-                <SystemReadout label="FRAME BUDGET" value={selectedProject.telemetry.frameRate} status="highlight" />
-                <SystemReadout label="MEMORY HEAP" value={selectedProject.telemetry.memory} />
-                <SystemReadout label="BUNDLE FOOTPRINT" value={selectedProject.telemetry.bundleCost} />
-                <SystemReadout label="RENDER ARCHITECTURE" value={selectedProject.telemetry.renderArchitecture} status="highlight" />
-              </div>
+            <div className="space-y-2">
+              <div className="text-[10px] text-[#71717a] uppercase tracking-widest font-bold">ABOUT THE PROJECT</div>
+              <p className="text-sm text-[#d4d4d8] leading-relaxed max-w-2xl">
+                {selectedProject.description}
+              </p>
             </div>
 
             {/* Engineering Highlights */}
-            <div className="space-y-2">
-              <div className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                <Layers className="h-3 w-3 text-[#10b981]" />
-                <span>KEY ARCHITECTURAL HIGHLIGHTS</span>
-              </div>
-              <ul className="space-y-1.5 text-xs text-[#a1a1aa]">
+            <div className="space-y-3">
+              <div className="text-[10px] text-[#71717a] uppercase tracking-widest font-bold">KEY FEATURES & CONTRIBUTIONS</div>
+              <ul className="space-y-2 text-sm text-[#a1a1aa] max-w-2xl">
                 {selectedProject.highlights.map((h, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="text-[#10b981] mt-0.5">›</span>
+                  <li key={i} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 text-[#10b981] shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{h}</span>
                   </li>
                 ))}
@@ -299,15 +281,13 @@ export function ProjectsPage() {
             </div>
 
             {/* Stack Tags */}
-            <div className="space-y-2">
-              <div className="text-[10px] text-[#71717a] uppercase tracking-wider">
-                COMPILATION DEPENDENCIES
-              </div>
-              <div className="flex flex-wrap gap-1.5">
+            <div className="space-y-3">
+              <div className="text-[10px] text-[#71717a] uppercase tracking-widest font-bold">TECHNOLOGY STACK</div>
+              <div className="flex flex-wrap gap-2">
                 {selectedProject.stack.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 py-0.5 rounded-xs border border-white/10 bg-[#0a0a0a] text-[11px] text-[#ededed]"
+                    className="px-3 py-1 rounded-xs border border-white/10 bg-white/5 text-xs text-[#ededed]"
                   >
                     {tech}
                   </span>
@@ -317,9 +297,9 @@ export function ProjectsPage() {
           </div>
 
           {/* Action Footer */}
-          <div className="pt-4 border-t border-white/8 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <span className="text-[10px] text-[#525252]">
-              PERMISSIONS: {selectedProject.permissions} // FILE SIZE: {selectedProject.fileSize}
+          <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+            <span className="text-[10px] text-[#525252] font-mono">
+              VERSION: {selectedProject.version}
             </span>
 
             <div className="flex items-center gap-3">
@@ -327,18 +307,19 @@ export function ProjectsPage() {
                 href={selectedProject.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xs border border-white/15 bg-white/[0.05] text-[#d4d4d8] hover:text-white hover:border-white/30 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xs border border-white/20 bg-transparent text-white hover:bg-white/5 transition-colors text-xs font-bold"
               >
-                <span>SOURCE REPO</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-[#10b981]" />
+                <span>SOURCE CODE</span>
+                <Globe className="h-4 w-4 text-[#10b981]" />
               </a>
 
               <button
                 type="button"
                 onClick={() => handleLaunchProject(selectedProject.destinationRoute)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xs border border-[#10b981] bg-[#10b981]/15 text-white hover:bg-[#10b981]/25 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xs border border-[#10b981] bg-[#10b981]/10 text-[#10b981] hover:bg-[#10b981]/20 transition-colors cursor-pointer text-xs font-bold"
               >
-                <span>OPEN 3D EXPERIENCE →</span>
+                <span>LAUNCH EXPERIENCE</span>
+                <ArrowUpRight className="h-4 w-4" />
               </button>
             </div>
           </div>

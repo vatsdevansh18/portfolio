@@ -19,7 +19,7 @@ import { SystemReadout } from "@/components/retro/SystemReadout"
 import { StatusIndicator } from "@/components/retro/StatusIndicator"
 import { TerminalLabel } from "@/components/retro/TerminalLabel"
 
-type AboutTab = "identity" | "philosophy" | "telemetry" | "playbook" | "academics"
+type AboutTab = "profile" | "education" | "philosophy" | "metrics"
 
 interface TelemetryMetric {
   label: string
@@ -31,12 +31,8 @@ interface TelemetryMetric {
 const TELEMETRY_METRICS: TelemetryMetric[] = [
   { label: "MATCH MINUTES LOGGED", value: "1,840+", subtext: "Varsity & Academy 2024-25", category: "ATHLETIC" },
   { label: "DISTANCE COVERED / MATCH", value: "10.4 KM", subtext: "Box-to-box midfield engine", category: "ATHLETIC" },
-  { label: "PASSING ACCURACY", value: "88.2%", subtext: "Central third distribution", category: "ATHLETIC" },
-  { label: "PRESSING RECOVERY RATE", value: "76.5%", subtext: "Defensive transition turnovers", category: "ATHLETIC" },
   { label: "PRODUCTION BUILD TIME", value: "560 MS", subtext: "Zero-bloat Vite pipeline", category: "ENGINEERING" },
   { label: "WEBGL FRAME TARGET", value: "60 FPS", subtext: "Clamped DPR & buffer geometry", category: "ENGINEERING" },
-  { label: "LIGHTHOUSE CORE AUDIT", value: "100%", subtext: "Strict accessibility & best practices", category: "ENGINEERING" },
-  { label: "TYPE COVERAGE RATIO", value: "100%", subtext: "Strict TypeScript compilation", category: "ENGINEERING" },
 ]
 
 interface DualDiscipline {
@@ -49,32 +45,20 @@ interface DualDiscipline {
 const DUAL_DISCIPLINES: DualDiscipline[] = [
   {
     pitchConcept: "Midfield 360° Scanning",
-    pitchDetail: "Constantly checking over shoulder, assessing defensive gaps before receiving ball.",
+    pitchDetail: "Constantly checking over shoulder, assessing gaps before receiving ball.",
     codeConcept: "Runtime Profiling & Tree-Shaking",
-    codeDetail: "Analyzing bundle footprints and render bottlenecks before shipping code.",
+    codeDetail: "Analyzing bundle footprints and render bottlenecks before shipping.",
   },
   {
-    pitchConcept: "Spatial Compactness (4-3-3)",
-    pitchDetail: "Maintaining strict distances between lines to choke off opposition half-spaces.",
-    codeConcept: "Modular Component Architecture",
-    codeDetail: "Strict separation of concerns, single-scroll ownership, and encapsulated states.",
-  },
-  {
-    pitchConcept: "Box-to-Box Workrate",
-    pitchDetail: "Sustained physical output and mental clarity across 90+ minutes plus extra time.",
-    codeConcept: "Deterministic Resilience",
-    codeDetail: "Error boundaries, optimistic UI updates, and zero layout thrashing under strain.",
-  },
-  {
-    pitchConcept: "Passing Channels & Third-Man Runs",
-    pitchDetail: "Executing geometric triangles to disorganize rigid defensive blocks.",
-    codeConcept: "Deterministic Data Flow",
-    codeDetail: "Unidirectional state, pure functional mutations, and type-safe event buses.",
+    pitchConcept: "Spatial Compactness",
+    pitchDetail: "Maintaining strict distances between lines to choke off opposition.",
+    codeConcept: "Modular Architecture",
+    codeDetail: "Strict separation of concerns and encapsulated states.",
   },
 ]
 
 export function AboutPage() {
-  const [activeTab, setActiveTab] = useState<AboutTab>("identity")
+  const [activeTab, setActiveTab] = useState<AboutTab>("profile")
   const [selectedDiscipline, setSelectedDiscipline] = useState<number>(0)
 
   return (
@@ -84,32 +68,45 @@ export function AboutPage() {
         <div className="flex items-center gap-2">
           <Terminal className="h-4 w-4 text-[#10b981]" />
           <span className="text-xs sm:text-sm font-bold text-white tracking-wider">
-            FILE_INSPECTOR // DEV://USER/DEVANSH/
+            DIRECTORY // ABOUT_ME/
           </span>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex flex-wrap items-center gap-1.5 text-xs">
+        <div className="flex flex-wrap items-center gap-2 text-xs">
           <button
             type="button"
-            onClick={() => setActiveTab("identity")}
-            className={`px-2.5 py-1 rounded-xs border transition-all cursor-pointer flex items-center gap-1.5 text-[11px] ${
-              activeTab === "identity"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white hover:border-white/20"
+            onClick={() => setActiveTab("profile")}
+            className={`px-3 py-1.5 rounded-xs border transition-all cursor-pointer flex items-center gap-2 text-[11px] font-bold ${
+              activeTab === "profile"
+                ? "border-[#10b981] bg-[#10b981]/15 text-white"
+                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white"
             }`}
           >
             <FileText className="h-3 w-3 text-[#10b981]" />
-            <span>[identity.txt]</span>
+            <span>[profile.txt]</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("education")}
+            className={`px-3 py-1.5 rounded-xs border transition-all cursor-pointer flex items-center gap-2 text-[11px] font-bold ${
+              activeTab === "education"
+                ? "border-[#10b981] bg-[#10b981]/15 text-white"
+                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white"
+            }`}
+          >
+            <Award className="h-3 w-3 text-[#10b981]" />
+            <span>[education.log]</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("philosophy")}
-            className={`px-2.5 py-1 rounded-xs border transition-all cursor-pointer flex items-center gap-1.5 text-[11px] ${
+            className={`px-3 py-1.5 rounded-xs border transition-all cursor-pointer flex items-center gap-2 text-[11px] font-bold ${
               activeTab === "philosophy"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white hover:border-white/20"
+                ? "border-[#10b981] bg-[#10b981]/15 text-white"
+                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white"
             }`}
           >
             <Compass className="h-3 w-3 text-[#10b981]" />
@@ -118,50 +115,24 @@ export function AboutPage() {
 
           <button
             type="button"
-            onClick={() => setActiveTab("telemetry")}
-            className={`px-2.5 py-1 rounded-xs border transition-all cursor-pointer flex items-center gap-1.5 text-[11px] ${
-              activeTab === "telemetry"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white hover:border-white/20"
+            onClick={() => setActiveTab("metrics")}
+            className={`px-3 py-1.5 rounded-xs border transition-all cursor-pointer flex items-center gap-2 text-[11px] font-bold ${
+              activeTab === "metrics"
+                ? "border-[#10b981] bg-[#10b981]/15 text-white"
+                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white"
             }`}
           >
             <Activity className="h-3 w-3 text-[#10b981]" />
-            <span>[telemetry.dat]</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("playbook")}
-            className={`px-2.5 py-1 rounded-xs border transition-all cursor-pointer flex items-center gap-1.5 text-[11px] ${
-              activeTab === "playbook"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white hover:border-white/20"
-            }`}
-          >
-            <Shield className="h-3 w-3 text-[#10b981]" />
-            <span>[playbook.cfg]</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("academics")}
-            className={`px-2.5 py-1 rounded-xs border transition-all cursor-pointer flex items-center gap-1.5 text-[11px] ${
-              activeTab === "academics"
-                ? "border-[#10b981] bg-[#10b981]/15 text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]"
-                : "border-white/10 bg-[#0a0a0a] text-[#8c8c8c] hover:text-white hover:border-white/20"
-            }`}
-          >
-            <Award className="h-3 w-3 text-[#10b981]" />
-            <span>[academics.log]</span>
+            <span>[metrics.dat]</span>
           </button>
         </div>
       </div>
 
-      {/* Main File Content (Flows naturally in primary scroll container) */}
-      <div className="flex-1 mt-5 text-xs sm:text-sm text-[#d4d4d8] leading-relaxed">
-        {/* TAB 1: IDENTITY */}
-        {activeTab === "identity" && (
-          <div className="space-y-5 max-w-4xl">
+      {/* Main File Content */}
+      <div className="flex-1 mt-6 text-xs sm:text-sm text-[#d4d4d8] leading-relaxed">
+        {/* TAB 1: PROFILE */}
+        {activeTab === "profile" && (
+          <div className="space-y-6 max-w-3xl">
             <RetroPanel
               title="USER_PROFILE.sys"
               subtitle="ATHLETE & ENGINEER DOSSIER"
@@ -322,49 +293,8 @@ export function AboutPage() {
           </div>
         )}
 
-        {/* TAB 4: PLAYBOOK */}
-        {activeTab === "playbook" && (
-          <div className="space-y-5 max-w-4xl">
-            <div className="border-b border-white/6 pb-2 flex items-center justify-between">
-              <span className="text-xs font-bold text-white uppercase tracking-wider">
-                TACTICAL PLAYBOOK // CORE SCHEMES & PROTOCOLS
-              </span>
-              <span className="text-[10px] text-[#71717a]">VERSION 2.4</span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <RetroPanel title="SCHEME_01" subtitle="MIDFIELD TRANSITION" controls={false}>
-                <p className="text-xs text-[#a1a1aa] leading-relaxed">
-                  Upon winning second balls in the middle third, execute immediate forward progression or release into wide half-space channels before opposition re-compacts.
-                </p>
-                <div className="text-[10px] text-[#10b981] pt-2 border-t border-white/6 mt-2">
-                  TRIGGER: Turnover in Zone 11/14
-                </div>
-              </RetroPanel>
-
-              <RetroPanel title="SCHEME_02" subtitle="HALF-SPACE OVERLOAD" controls={false}>
-                <p className="text-xs text-[#a1a1aa] leading-relaxed">
-                  Combine with advancing full-back and inverted winger to create 3v2 numerical superiority in the right channel, forcing defender displacement.
-                </p>
-                <div className="text-[10px] text-[#10b981] pt-2 border-t border-white/6 mt-2">
-                  TRIGGER: Low block containment
-                </div>
-              </RetroPanel>
-
-              <RetroPanel title="SCHEME_03" subtitle="REST-DEFENSE PIVOT" controls={false}>
-                <p className="text-xs text-[#a1a1aa] leading-relaxed">
-                  Maintain central pivot cover at (1.2, 0.0, 5.0) while attacks unfold to extinguish immediate counter-attack channels before they reach the back four.
-                </p>
-                <div className="text-[10px] text-[#10b981] pt-2 border-t border-white/6 mt-2">
-                  TRIGGER: Attacking phase possession
-                </div>
-              </RetroPanel>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 5: ACADEMICS */}
-        {activeTab === "academics" && (
+        {/* TAB 4: EDUCATION */}
+        {activeTab === "education" && (
           <div className="space-y-4 max-w-3xl">
             <RetroPanel
               title="INSTITUTIONAL_RECORD.log"

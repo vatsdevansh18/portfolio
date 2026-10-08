@@ -121,12 +121,12 @@ export function ContactPage() {
         <div className="flex items-center gap-2">
           <Terminal className="h-4 w-4 text-[#10b981]" />
           <span className="text-xs sm:text-sm font-bold text-white tracking-wider">
-            TRANSCEIVER // COMM://DEV/SERIAL_CHANNEL/
+            DIRECTORY // CONTACT/
           </span>
         </div>
         <div className="flex items-center gap-3 text-xs">
-          <StatusIndicator status="online" label="CARRIER DETECTED" />
-          <span className="text-[#71717a] hidden sm:inline">115200 8-N-1</span>
+          <StatusIndicator status="online" label="AVAILABLE" />
+          <span className="text-[#71717a] hidden sm:inline">24H_RESPONSE_TIME</span>
         </div>
       </div>
 
@@ -135,8 +135,7 @@ export function ContactPage() {
         {/* Verified Link Files */}
         <div className="space-y-3">
           <div className="text-[10px] text-[#71717a] uppercase tracking-wider flex items-center justify-between">
-            <span>VERIFIED TRANSMISSION ENDPOINTS</span>
-            <span className="text-[#10b981]">SLA: &lt; 24H RESPONSE TIME</span>
+            <span>OFFICIAL CONTACT METHODS</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -161,7 +160,7 @@ export function ContactPage() {
                 </svg>
                 <div>
                   <div className="text-xs font-bold text-white group-hover:text-[#10b981] transition-colors">
-                    github.link
+                    GitHub
                   </div>
                   <div className="text-[11px] text-[#71717a]">
                     github.com/vatsdevansh18
@@ -173,7 +172,7 @@ export function ContactPage() {
 
             {/* LinkedIn File */}
             <a
-              href="https://www.linkedin.com/in/devansh-vattsss/?isSelfProfile=true"
+              href="https://www.linkedin.com/in/devansh-vattsss/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3.5 rounded-xs retro-box hover:border-[#10b981]/50 hover:bg-[#10b981]/5 transition-all flex items-center justify-between group"
@@ -194,7 +193,7 @@ export function ContactPage() {
                 </svg>
                 <div>
                   <div className="text-xs font-bold text-white group-hover:text-[#10b981] transition-colors">
-                    linkedin.link
+                    LinkedIn
                   </div>
                   <div className="text-[11px] text-[#71717a]">
                     linkedin.com/in/devansh-vattsss
@@ -210,7 +209,7 @@ export function ContactPage() {
             <div className="flex items-center gap-3">
               <Mail className="h-4 w-4 text-[#10b981]" />
               <div>
-                <div className="text-xs font-bold text-white">email.addr</div>
+                <div className="text-xs font-bold text-white">Email Address</div>
                 <div className="text-[11px] text-[#a1a1aa]">{emailAddress}</div>
               </div>
             </div>
@@ -229,7 +228,7 @@ export function ContactPage() {
                 ) : (
                   <>
                     <Copy className="h-3 w-3" />
-                    <span>[COPY ADDRESS]</span>
+                    <span>COPY EMAIL</span>
                   </>
                 )}
               </button>
@@ -238,7 +237,7 @@ export function ContactPage() {
                 href={`mailto:${emailAddress}?subject=Engineering%20Collaboration%20Inquiry`}
                 className="px-3 py-1.5 rounded-xs border border-[#10b981]/40 bg-[#10b981]/15 text-xs text-white hover:bg-[#10b981]/25 transition-colors flex items-center gap-1.5"
               >
-                <span>[OPEN CLIENT]</span>
+                <span>OPEN EMAIL APP</span>
                 <ArrowUpRight className="h-3 w-3 text-[#10b981]" />
               </a>
             </div>
@@ -247,8 +246,8 @@ export function ContactPage() {
 
         {/* Interactive Terminal Dispatch Console */}
         <RetroPanel
-          title="COMMUNICATION_DISPATCH_CONSOLE.tty"
-          subtitle="SERIAL INPUT BUFFER"
+          title="INTERACTIVE TERMINAL"
+          subtitle="PING ME OR REQUEST STATUS"
           statusText="CARRIER_OK"
         >
           {/* Console Log History */}
