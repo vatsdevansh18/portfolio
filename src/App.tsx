@@ -16,8 +16,6 @@ import { PortfolioV3Experience } from "@/components/immersive/PortfolioV3Experie
 import { FootballAttendanceExperience } from "@/components/immersive/FootballAttendanceExperience"
 import { TacticalPitchExperience } from "@/components/immersive/TacticalPitchExperience"
 
-import { Mascot } from "@/components/mascot/Mascot"
-
 export default function App() {
   const [isInitialized, setIsInitialized] = useState<boolean>(() => {
     // Check if user already booted the workstation in this session
@@ -48,9 +46,6 @@ export default function App() {
 
       {/* Subtle, zero-overhead CRT scanlines and vignette overlay */}
       <CRTOverlay />
-
-      {/* C0R3-Y Mascot Companion */}
-      {isInitialized && <Mascot />}
 
       {/* Initial Minimal Session Boot Screen */}
       {!isInitialized ? (
